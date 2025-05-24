@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Django Gemini Chatbot 🤖
 
 A powerful web-based chatbot application built with Django and Google's Gemini AI model. This project demonstrates the integration of advanced AI capabilities into a modern web application.
