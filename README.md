@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Django Gemini Chatbot 🤖
 
 A powerful web-based chatbot application built with Django and Google's Gemini AI model. This project demonstrates the integration of advanced AI capabilities into a modern web application.
@@ -120,3 +121,7 @@ Your Name
 ---
 
 ⭐ Star this repository if you find it helpful! 
+=======
+# django-gemini-chatbot
+A powerful AI chatbot built with Django and Google's Gemini model. Features real-time chat, code highlighting, and user authentication.
+>>>>>>> 8b29b70d3c89c0c460aeb6524ee4877efa77fa1f
