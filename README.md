@@ -2,6 +2,9 @@
 
 A powerful web-based chatbot application built with Django and Google's Gemini AI model. This project demonstrates the integration of advanced AI capabilities into a modern web application.
 
+
+ 📌 **Note:** This project is primarily intended for Persian-speaking users. While the documentation is in English, you can localize the UI and functionality for Persian as needed.
+
 ## 🌟 Features
 
 - Interactive chat interface
