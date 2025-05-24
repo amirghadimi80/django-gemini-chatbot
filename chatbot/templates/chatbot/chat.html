@@ -3,231 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چت‌بات </title>
+    <title>هوشتو AI - چت بات هوشمند</title>
     <style>
         @font-face {
             font-family: 'Vazir';
             src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font/dist/Vazir.woff2') format('woff2');
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Vazir', Arial, sans-serif;
-            direction: rtl;
-            text-align: right;
-            background: #1a1a2e;
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .chat-container {
-            width: 100%;
-            max-width: 800px;
-            height: 90vh;
-            background: #16213e;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background: #0f3460;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            scroll-behavior: smooth;
-            background: #1a1a2e;
-        }
-
-        .chat-box::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-box::-webkit-scrollbar-thumb {
-            background: #0f3460;
-            border-radius: 10px;
-        }
-
-        .chat-bubble {
-            max-width: 80%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-            display: inline-block;
-            white-space: pre-line;
-        }
-
-        .user-message {
-            background: #0f3460;
-            color: white;
-            align-self: flex-end;
-            border-bottom-left-radius: 5px;
-            text-align: right;
-        }
-
-        .bot-message {
-            background: #f1f1f1;
+            background: #f9f9f9;
             color: #333;
-            align-self: flex-start;
-            border-bottom-right-radius: 5px;
-            text-align: right;
+            direction: rtl;
         }
 
-        /* Code Formatting */
-        .bot-message pre {
-            background: #272822;
-            color: #f8f8f2;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        /* Bold text */
-        .bot-message strong {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
             color: #0f3460;
         }
 
-        .chat-input-area {
+        .user-actions {
             display: flex;
-            padding: 15px;
-            background: #0f3460;
             align-items: center;
+            gap: 15px;
         }
 
-        .chat-input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 20px;
-            outline: none;
-            font-size: 14px;
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background: #0f3460;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
             background: white;
-            color: black;
-            text-align: right;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 150px;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
 
-        .send-btn {
+        .user-profile:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown a {
+            display: block;
+            padding: 8px 12px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .profile-dropdown a:hover {
+            background: #f5f5f5;
+        }
+
+        .profile-dropdown a.logout {
+            color: #e94560;
+            border-top: 1px solid #eee;
+            margin-top: 5px;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+
+        .profile-dropdown a.logout:hover {
+            background: #fff0f0;
+        }
+
+        .sign-in-btn {
+            background: #0f3460;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Vazir';
+            transition: background 0.3s;
+        }
+
+        .sign-in-btn:hover {
+            background: #1a4b8c;
+        }
+
+        .welcome-text {
+            font-size: 18px;
+            color: #0f3460;
+            margin-bottom: 20px;
+        }
+
+        .registration-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Vazir';
+            font-size: 14px;
+        }
+
+        .submit-btn {
             background: #e94560;
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 50%;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-left: 10px;
+            font-family: 'Vazir';
             font-size: 16px;
+            width: 100%;
+            transition: background 0.3s;
         }
 
-        .send-btn:hover {
+        .submit-btn:hover {
             background: #ff4b5c;
         }
 
-        /* Light/Dark Mode Toggle */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #e94560;
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 70%;
+            position: relative;
+        }
+
+        .user-message {
+            margin-right: 0;
+            margin-left: auto;
+            background: #0f3460;
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 12px 15px;
+            border-radius: 16px;
+            border-bottom-right-radius: 0;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .bot-message {
+            margin-left: 0;
+            margin-right: auto;
+            background: #f0f0f0;
+            color: #333;
+            padding: 12px 15px;
+            border-radius: 16px;
+            border-bottom-left-radius: 0;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .bot-message strong {
+            color: #1a4b8c;
+            font-weight: 600;
+        }
+
+        .loading-indicator {
+            margin-left: auto;
+            background: #f0f0f0;
+            color: #333;
+            padding: 12px 15px;
+            border-radius: 16px;
+            border-bottom-left-radius: 0;
+            display: none;
+        }
+
+        .loading-dots {
+            display: inline-block;
+            animation: loading 1.4s infinite;
+        }
+
+        @keyframes loading {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Vazir';
             font-size: 14px;
         }
 
-        .light-mode {
+        .chat-input button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Vazir';
+            transition: background 0.3s;
+        }
+
+        .chat-input button:hover {
+            background: #ff4b5c;
+        }
+
+        .message-time {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+            display: block;
+            text-align: left;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: monospace;
+        }
+
+        .auth-container {
             background: white;
-            color: black;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .light-mode .chat-container {
-            background: #f4f4f4;
+        .auth-tab {
+            background: #f0f0f0;
+            color: #333;
+            transition: all 0.3s;
         }
 
-        .light-mode .chat-box {
-            background: white;
-        }
-
-        .light-mode .chat-header {
+        .auth-tab.active {
             background: #0f3460;
+            color: white;
         }
 
-        .light-mode .chat-input-area {
-            background: #ddd;
+        .auth-tab:hover {
+            background: #1a4b8c;
+            color: white;
         }
 
-        .light-mode .chat-input {
-            background: #f5f5f5;
-            color: black;
+        .message-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
-
-        .light-mode .send-btn {
-            background: #0f3460;
-        }
-
-        .light-mode .send-btn:hover {
-            background: #1a1a2e;
-        }
-
     </style>
 </head>
 <body>
-
-    <button class="theme-toggle" onclick="toggleTheme()">تغییر تم</button>
-
-    <div class="chat-container">
-        <div class="chat-header">چت‌بات  💬</div>
-
-        <div class="chat-box" id="chat-box">
-            {% for chat in chat_history %}
-                <div class="chat-bubble user-message"><strong>شما:</strong> {{ chat.user }}</div>
-                <div class="chat-bubble bot-message">
-                    <strong>ربات:</strong> 
-                    {{ chat.bot|safe }}
-                </div>
-            {% endfor %}
+    <div class="container">
+        <div class="header">
+            <div class="logo">هوشتو AI</div>
+            <div class="user-actions">
+                {% if user %}
+                    <div class="welcome-text">سلام {{ user.name }}! 👋</div>
+                    <a href="{% url 'logout' %}" class="sign-in-btn" style="background: #e94560; text-decoration: none;">خروج</a>
+                {% endif %}
+            </div>
         </div>
 
-        <form method="POST" class="chat-input-area">
-            {% csrf_token %}
-            <input type="text" name="message" class="chat-input" placeholder="پیام خود را وارد کنید..." required>
-            <button type="submit" class="send-btn">▶</button>
-        </form>
+        {% if user %}
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                {% for message in chat_history %}
+                <div class="message-container">
+                    <div class="message {% if message.user %}user-message{% else %}bot-message{% endif %}">
+                        {{ message.bot|safe }}
+                        <span class="message-time">{{ message.time }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="loading-indicator" id="loading-indicator">
+                در حال پاسخگویی<span class="loading-dots"></span>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="پیام خود را بنویسید...">
+                <button onclick="sendMessage()">ارسال</button>
+            </div>
+        </div>
+        {% else %}
+        <div class="auth-container" style="max-width: 500px; margin: 50px auto; text-align: center;">
+            <h2 style="margin-bottom: 30px; color: #0f3460;">به هوشتو AI خوش آمدید</h2>
+            <div class="registration-box">
+                <div class="auth-tabs" style="margin-bottom: 20px;">
+                    <button onclick="showForm('register')" id="register-tab" class="auth-tab active" style="margin-right: 10px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">ثبت نام</button>
+                    <button onclick="showForm('login')" id="login-tab" class="auth-tab" style="padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">ورود</button>
+                </div>
+                <form method="post" action="{% url 'register' %}" id="register-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">نام و نام خانوادگی</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">شماره تلفن (مثال: ۰۹۱۲۱۱۱۲۲۳۳)</label>
+                        <input type="tel" id="phone" name="phone" pattern="09[0-9]{9}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">رمز عبور</label>
+                        <input type="password" id="password" name="password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">ایمیل</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="submit-btn">ثبت نام</button>
+                </form>
+                <form method="post" action="{% url 'login' %}" id="login-form" style="display: none;">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="login-phone">شماره تلفن</label>
+                        <input type="tel" id="login-phone" name="phone" pattern="09[0-9]{9}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">رمز عبور</label>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">ورود</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <script>
-        window.onload = function () {
-            var chatBox = document.getElementById("chat-box");
-            chatBox.scrollTop = chatBox.scrollHeight;
-        };
-
-        function toggleTheme() {
-            document.body.classList.toggle("light-mode");
+        function scrollToBottom() {
+            const container = document.getElementById('chat-messages');
+            container.scrollTop = container.scrollHeight;
         }
-    </script>
 
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            input.value = '';
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            // Show user message immediately
+            appendMessage(message, true);
+            loadingIndicator.style.display = 'block';
+            scrollToBottom();
+
+            fetch('/ajax/chat/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `message=${encodeURIComponent(message)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingIndicator.style.display = 'none';
+                appendMessage(data.bot, false);
+                scrollToBottom();
+            });
+        }
+
+        function appendMessage(content, isUser) {
+            const container = document.getElementById('chat-messages');
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container';
+            
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            message.innerHTML = content;
+            
+            const time = document.createElement('span');
+            time.className = 'message-time';
+            time.textContent = new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+            message.appendChild(time);
+            
+            messageContainer.appendChild(message);
+            container.appendChild(messageContainer);
+            scrollToBottom();
+        }
+
+        function showForm(formType) {
+            const registerForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const registerTab = document.getElementById('register-tab');
+            const loginTab = document.getElementById('login-tab');
+
+            if (formType === 'register') {
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+            } else {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                registerTab.classList.remove('active');
+                loginTab.classList.add('active');
+            }
+        }
+
+        // Initial scroll to bottom
+        scrollToBottom();
+    </script>
 </body>
 </html>
