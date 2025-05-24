@@ -103,14 +103,13 @@ Never commit the `.env` file to version control. The `.env.example` file is prov
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👥 Author
 
-Your Name
-- GitHub: [@yourusername]((https://github.com/amirghadimi80/))
+Amir Hossein Ghadimi
+
+- GitHub: https://github.com/amirghadimi80/
 
 ## 🙏 Acknowledgments
 
@@ -121,7 +120,4 @@ Your Name
 ---
 
 ⭐ Star this repository if you find it helpful! 
-=======
-# django-gemini-chatbot
-A powerful AI chatbot built with Django and Google's Gemini model. Features real-time chat, code highlighting, and user authentication.
->>>>>>> 8b29b70d3c89c0c460aeb6524ee4877efa77fa1f
+
